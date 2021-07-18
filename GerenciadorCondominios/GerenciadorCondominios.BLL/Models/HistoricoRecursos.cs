@@ -12,7 +12,6 @@ namespace GerenciadorCondominios.BLL.Models
         public int Dia { get; set; }
         public int MesId { get; set; }
         public virtual Mes Mes { get; set; }
-
         public int Ano { get; set; }
 
     }
