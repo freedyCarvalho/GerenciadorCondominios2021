@@ -22,6 +22,6 @@ namespace GerenciadorCondominios.BLL.Models
         [Range(2021, 2030, ErrorMessage = "Valor inválido")]
         public int Ano { get; set; }
 
-        public virtual<Pagamento> Pagamentos { get; set; }
+        public virtual Pagamento Pagamentos { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace GerenciadorCondominios.BLL.Models
         [Display(Name = "Número")]
         public int Numero { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório"]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [Range(1, 10)]
         public int Andar { get; set; }
 
