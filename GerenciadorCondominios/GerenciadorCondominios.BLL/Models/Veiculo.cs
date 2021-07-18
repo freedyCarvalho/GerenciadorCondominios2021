@@ -27,5 +27,7 @@ namespace GerenciadorCondominios.BLL.Models
 
         public string UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
+
+        public DateTime Cadastro { get; set; }
     }
 }

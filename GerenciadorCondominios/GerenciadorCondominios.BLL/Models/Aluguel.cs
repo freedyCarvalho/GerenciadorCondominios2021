@@ -15,13 +15,12 @@ namespace GerenciadorCondominios.BLL.Models
 
         [Display(Name = "Mês")]
         public int MesId { get; set; }
-
         public Mes Mes { get; set; }
         
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [Range(2021, 2030, ErrorMessage = "Valor inválido")]
         public int Ano { get; set; }
 
-        public virtual Pagamento Pagamentos { get; set; }
+        public virtual ICollection<Pagamento> Pagamentos { get; set; }
     }
 }
