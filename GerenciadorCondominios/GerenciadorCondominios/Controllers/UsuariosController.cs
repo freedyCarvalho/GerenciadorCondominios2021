@@ -26,13 +26,18 @@ namespace GerenciadorCondominios.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        await _usuarioRepositorio.DeslogarUsuario();
+        //    }
+
+        //    return View();
+        //}
+
+        public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                await _usuarioRepositorio.DeslogarUsuario();
-            }
-            
             return View();
         }
 
@@ -136,9 +141,10 @@ namespace GerenciadorCondominios.Controllers
                     {
                         return View("Reprovado", usuario.UserName);
                     }
-                    else if (usuario.PrimeiroAcesso)
+                    else if (usuario.PrimeiroAcesso == true)
                     {
                         return View("RedefinirSenha", usuario);
+                        //return RedirectToAction(nameof(RedefinirSenha), usuario);
                     }
                     else
                     {
@@ -147,7 +153,8 @@ namespace GerenciadorCondominios.Controllers
                         if (passwordHasher.VerifyHashedPassword(usuario, usuario.PasswordHash, model.Senha) != PasswordVerificationResult.Failed)
                         {
                             await _usuarioRepositorio.LogarUsuario(usuario, false);
-                            return RedirectToAction("Index");
+                            return RedirectToAction(nameof(Index));
+                            //return Redirect("/Index");
                         }
                         else
                         {
@@ -167,6 +174,13 @@ namespace GerenciadorCondominios.Controllers
 
             return View(model);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _usuarioRepositorio.DeslogarUsuario();
+            return RedirectToAction("Login");
         }
 
         public IActionResult Analise(string nome)

@@ -55,6 +55,7 @@ namespace GerenciadorCondominios.DAL.Repositorios
             catch (Exception e)
             {
                 throw e;
+                //throw new Exception("An error ocurred: " + e.Message); 
             }
         }
 
