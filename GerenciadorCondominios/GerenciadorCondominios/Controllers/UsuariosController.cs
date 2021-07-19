@@ -26,8 +26,13 @@ namespace GerenciadorCondominios.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _usuarioRepositorio.DeslogarUsuario();
+            }
+            
             return View();
         }
 
@@ -107,9 +112,61 @@ namespace GerenciadorCondominios.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = await _usuarioRepositorio.PegarUsuarioPeloEmail(model.Email);
+
+                if (usuario != null)
+                {
+                    if (usuario.Status == StatusConta.Analisando)
+                    {
+                        return View("Analise", usuario.UserName);
+                    }
+                    else if (usuario.Status == StatusConta.Reprovado)
+                    {
+                        return View("Reprovado", usuario.UserName);
+                    }
+                    else if (usuario.PrimeiroAcesso)
+                    {
+                        return View("RedefinirSenha", usuario);
+                    }
+                    else
+                    {
+                        PasswordHasher<Usuario> passwordHasher = new PasswordHasher<Usuario>();
+
+                        if (passwordHasher.VerifyHashedPassword(usuario, usuario.PasswordHash, model.Senha) != PasswordVerificationResult.Failed)
+                        {
+                            await _usuarioRepositorio.LogarUsuario(usuario, false);
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Usuário e/ou senha inválidos");
+                            return View(model);
+                        }
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Usuário e/ou senha inválidos");
+                    return View(model);
+                }
+
+            }
+
+            return View(model);
+
         }
 
         public IActionResult Analise(string nome)
@@ -117,5 +174,6 @@ namespace GerenciadorCondominios.Controllers
             return View(nome);
 
         }
+
     }
 }

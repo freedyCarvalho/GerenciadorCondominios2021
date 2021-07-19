@@ -35,6 +35,7 @@
         <div>
             <form asp-action="Login" enctype="multipart/form-data">
                 <div class="campos">
+                    <div class="red-text text-darken-4" asp-validation-summary="ModelOnly"></div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input asp-for="Email" class="validate" type="email" id="Email" />
