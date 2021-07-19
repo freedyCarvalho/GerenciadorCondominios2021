@@ -2,6 +2,7 @@ using GerenciadorCondominios.BLL.Models;
 using GerenciadorCondominios.DAL;
 using GerenciadorCondominios.DAL.Interface;
 using GerenciadorCondominios.DAL.Repositorios;
+using GerenciadorCondominios.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,9 +34,11 @@ namespace GerenciadorCondominios
 
             services.AddAuthentication();
             services.AddAuthorization();
-
-            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddControllersWithViews();
+            services.ConfigurarRepositorios(); // Extendendo a classe startup
+            services.ConfigurarNomeUsuario(); // Extendendo a classe startup
+            services.ConfigurarSenhaUsuario(); // Extendendo a classe startup
+            services.ConfigurarCookies(); // Extendendo a classe startup
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
