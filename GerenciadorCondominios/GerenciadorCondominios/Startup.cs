@@ -1,4 +1,7 @@
+using GerenciadorCondominios.BLL.Models;
 using GerenciadorCondominios.DAL;
+using GerenciadorCondominios.DAL.Interface;
+using GerenciadorCondominios.DAL.Repositorios;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +28,13 @@ namespace GerenciadorCondominios
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Contexto>(option => option.UseSqlServer(Configuration.GetConnectionString("ConexaoDB"))); 
+            services.AddDbContext<Contexto>(option => option.UseSqlServer(Configuration.GetConnectionString("ConexaoDB")));
+            services.AddIdentity<Usuario, Funcao>().AddEntityFrameworkStores<Contexto>();
+
+            services.AddAuthentication();
+            services.AddAuthorization();
+
+            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddControllersWithViews();
         }
 
@@ -46,6 +55,7 @@ namespace GerenciadorCondominios
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthorization();
 
             app.UseAuthorization();
 
