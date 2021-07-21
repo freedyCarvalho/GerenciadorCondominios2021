@@ -13,7 +13,7 @@ namespace GerenciadorCondominios.Extensions
         {
             services.Configure<IdentityOptions>(opcoes =>
             {
-                opcoes.User.AllowedUserNameCharacters = "abcefghijklmnopqrstuvwxyzABCEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                opcoes.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 opcoes.User.RequireUniqueEmail = true;
             });
         }

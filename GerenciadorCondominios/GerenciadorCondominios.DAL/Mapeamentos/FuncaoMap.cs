@@ -26,7 +26,7 @@ namespace GerenciadorCondominios.DAL.Mapeamentos
                 new Funcao
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Síndico",
+                    Name = "Sindico",
                     NormalizedName = "SINDICO",
                     Descricao = "Síndico do Prédio"
                 },
