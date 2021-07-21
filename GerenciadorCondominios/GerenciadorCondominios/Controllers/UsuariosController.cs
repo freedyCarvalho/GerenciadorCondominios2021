@@ -36,9 +36,9 @@ namespace GerenciadorCondominios.Controllers
         //    return View();
         //}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View( await _usuarioRepositorio.PegarTodos());
         }
 
         [HttpGet]
@@ -118,8 +118,11 @@ namespace GerenciadorCondominios.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            if (User.Identity.IsAuthenticated)
+                await _usuarioRepositorio.DeslogarUsuario();
+
             return View();
         }
 
