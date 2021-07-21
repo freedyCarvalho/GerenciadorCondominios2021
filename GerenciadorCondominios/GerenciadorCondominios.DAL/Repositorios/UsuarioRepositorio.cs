@@ -88,7 +88,7 @@ namespace GerenciadorCondominios.DAL.Repositorios
         {
             try
             {
-                return await _gerenciadorUsuarios.UpdateAsync(usuario);
+                await _gerenciadorUsuarios.UpdateAsync(usuario);
             }
             catch (Exception e)
             {
@@ -105,6 +105,59 @@ namespace GerenciadorCondominios.DAL.Repositorios
             catch (Exception e)
             {
 
+                throw e;
+            }
+        }
+
+        public async Task<bool> VerificarSeUsuarioEstaEmFuncao(Usuario usuario, string funcao)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                return await _gerenciadorUsuarios.IsInRoleAsync(usuario, funcao);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
+        }
+
+        public async Task<IEnumerable<string>> PegarFuncoesUsuario(Usuario usuario)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                return await _gerenciadorUsuarios.GetRolesAsync(usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<IdentityResult> RemoverFuncoesUsuario(Usuario usuario, IEnumerable<string> funcoes)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                return await _gerenciadorUsuarios.RemoveFromRolesAsync(usuario, funcoes);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<IdentityResult> IncluirUsuarioEmFuncoes(Usuario usuario, IEnumerable<string> funcoes)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                return await _gerenciadorUsuarios.AddToRolesAsync(usuario, funcoes);
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
         }
