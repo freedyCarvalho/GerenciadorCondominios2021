@@ -295,5 +295,10 @@ namespace GerenciadorCondominios.Controllers
 
         }
 
+        public async Task<IActionResult> MinhasInformacoes()
+        {
+            return View(await _usuarioRepositorio.PegarUsuarioPeloNome(User)); // esse User é um Claims Principal
+        }
+
     }
 }
