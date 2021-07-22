@@ -2,9 +2,7 @@
 @using GerenciadorCondominios.BLL.Models
 @inject SignInManager<Usuario> SignInManager
 
-<span>@SignInManager.IsSignedIn(User)</span>
-
-@if (SignInManager.IsSignedIn(User)) 
+@if(SignInManager.IsSignedIn(User)) 
 {
     <form asp-action="Logout" asp-controller="Usuarios" id="formularioLogout">
         <ul>
