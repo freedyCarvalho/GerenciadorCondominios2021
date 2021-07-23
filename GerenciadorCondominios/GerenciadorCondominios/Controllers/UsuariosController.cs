@@ -41,7 +41,7 @@ namespace GerenciadorCondominios.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View( await _usuarioRepositorio.PegarTodos());
+            return View(await _usuarioRepositorio.PegarTodos());
         }
 
         [HttpGet]
@@ -116,7 +116,7 @@ namespace GerenciadorCondominios.Controllers
                 }
 
             }
-            
+
             return View(model);
         }
 
@@ -251,7 +251,8 @@ namespace GerenciadorCondominios.Controllers
                 if (await _usuarioRepositorio.VerificarSeUsuarioEstaEmFuncao(usuario, funcao.Name))
                 {
                     model.isSelecionado = true;
-                } else
+                }
+                else
                 {
                     model.isSelecionado = false;
                 }
@@ -298,6 +299,75 @@ namespace GerenciadorCondominios.Controllers
         public async Task<IActionResult> MinhasInformacoes()
         {
             return View(await _usuarioRepositorio.PegarUsuarioPeloNome(User)); // esse User é um Claims Principal
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Atualizar(string id)
+        {
+            Usuario usuario = await _usuarioRepositorio.PegarPeloId(id);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            AtualizarViewModel model = new AtualizarViewModel
+            {
+                UsuarioId = usuario.Id,
+                Nome = usuario.UserName,
+                CPF = usuario.CPF,
+                Telefone = usuario.PhoneNumber,
+                Email = usuario.Email,
+                Foto = usuario.Foto
+            };
+
+            TempData["Foto"] = usuario.Foto;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Atualizar(AtualizarViewModel viewModel, IFormFile foto)
+        {
+            if (ModelState.IsValid)
+            {
+                if (foto != null)
+                {
+                    string diretorioPasta = Path.Combine(_webHostEnvironment.WebRootPath, "Imagens");
+                    string nomeFoto = Guid.NewGuid().ToString() + foto.FileName;
+
+                    using (FileStream fileStream = new FileStream(Path.Combine(diretorioPasta, nomeFoto), FileMode.Create))
+                    {
+                        await foto.CopyToAsync(fileStream);
+                        viewModel.Foto = "~/Imagens/" + nomeFoto;
+                    }
+                }
+                else
+                    viewModel.Foto = TempData["Foto"].ToString();
+
+                Usuario usuario = await _usuarioRepositorio.PegarUsuarioPeloId(viewModel.UsuarioId);
+
+                usuario.UserName = viewModel.Nome;
+                usuario.CPF = viewModel.CPF;
+                usuario.PhoneNumber = viewModel.Telefone;
+                usuario.Email = viewModel.Email;
+                usuario.Foto = viewModel.Foto;
+
+                await _usuarioRepositorio.AtualizarUsuario(usuario);
+
+                if (await _usuarioRepositorio.VerificarSeUsuarioEstaEmFuncao(usuario, "Administrador") ||
+                    await _usuarioRepositorio.VerificarSeUsuarioEstaEmFuncao(usuario, "Sindico"))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(MinhasInformacoes));
+                }
+            }
+
+            return View(viewModel);
         }
 
     }
