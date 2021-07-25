@@ -370,5 +370,37 @@ namespace GerenciadorCondominios.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult RedefinirSenha(Usuario usuario)
+        {
+            LoginViewModel model = new LoginViewModel
+            {
+                Email = usuario.Email,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RedefinirSenha(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = await _usuarioRepositorio.PegarUsuarioPeloEmail(model.Email);
+                usuario.PasswordHash = _usuarioRepositorio.CodificarSenha(usuario, model.Senha);
+                usuario.PrimeiroAcesso = false;
+                await _usuarioRepositorio.AtualizarUsuario(usuario);
+                await _usuarioRepositorio.LogarUsuario(usuario, false);
+
+                return RedirectToAction(nameof(MinhasInformacoes));
+
+            } else
+            {
+                return View(model);
+            }
+            
+        }
+
     }
 }
