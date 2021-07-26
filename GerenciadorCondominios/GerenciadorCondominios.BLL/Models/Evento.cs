@@ -17,5 +17,10 @@ namespace GerenciadorCondominios.BLL.Models
         public DateTime Data { get; set; }
         public string UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

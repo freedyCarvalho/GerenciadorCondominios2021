@@ -149,8 +149,8 @@ namespace GerenciadorCondominios.Controllers
                     }
                     else if (usuario.PrimeiroAcesso == true)
                     {
-                        return View("RedefinirSenha", usuario);
-                        //return RedirectToAction(nameof(RedefinirSenha), usuario);
+                        //return View("RedefinirSenha", usuario);
+                        return RedirectToAction(nameof(RedefinirSenha), usuario);
                     }
                     else
                     {
