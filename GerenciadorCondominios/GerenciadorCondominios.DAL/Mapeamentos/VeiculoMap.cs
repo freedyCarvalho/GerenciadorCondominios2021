@@ -22,7 +22,7 @@ namespace GerenciadorCondominios.DAL.Mapeamentos
             builder.HasOne(v => v.Usuario).WithMany(v => v.Veiculos).HasForeignKey(v => v.UsuarioId);
 
             builder.Property(v => v.Cadastro).IsRequired();
-            builder.Property(v => v.Cadastro).ValueGeneratedOnAdd();
+            builder.Property(v => v.Cadastro).HasDefaultValueSql("Convert(Datetime, getDate(), 103)");
 
             builder.ToTable("Veiculos");
         }

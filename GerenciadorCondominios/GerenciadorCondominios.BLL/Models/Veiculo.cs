@@ -7,7 +7,7 @@ namespace GerenciadorCondominios.BLL.Models
 {
     public class Veiculo
     {
-        public string VeiculoId { get; set; }
+        public int VeiculoId { get; set; }
         
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(20, ErrorMessage = "Máximo de 20 caracteres")]

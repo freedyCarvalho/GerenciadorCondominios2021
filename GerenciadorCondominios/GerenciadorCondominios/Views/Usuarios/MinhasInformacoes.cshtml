@@ -5,7 +5,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@*<partial name="Confirmações" />*@
+<partial name="_Confirmacoes" />
 
 <div class="card horizontal">
     <div class="card-image">
@@ -38,7 +38,7 @@
 </div>
 
 <div>
-    @*@await Component.InvokeAsync("Veiculos", Model.Id)*@
+    @await Component.InvokeAsync("Veiculos", Model.Id)
 </div>
 
 <div>
