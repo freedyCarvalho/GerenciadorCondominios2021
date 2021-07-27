@@ -22,7 +22,6 @@ namespace GerenciadorCondominios.BLL.Models
         public string Cor { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [StringLength(7, ErrorMessage = "Máximo de 7 caracteres")]
         public string Placa { get; set; }
 
         public string UsuarioId { get; set; }

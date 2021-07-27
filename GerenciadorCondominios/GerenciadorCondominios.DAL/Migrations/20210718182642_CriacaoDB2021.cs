@@ -287,13 +287,14 @@ namespace GerenciadorCondominios.DAL.Migrations
                 name: "Veiculos",
                 columns: table => new
                 {
-                    VeiculoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VeiculoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Marca = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Cor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Placa = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Cadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Cadastro = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

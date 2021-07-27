@@ -58,8 +58,8 @@
                         <td>
                             <a asp-controller="Veiculos" asp-action="Edit" asp-route-id="@item.VeiculoId" class="btn-floating btn-small blue darken-4 tooltip" data-position="right" data-tooltip="Atualizar Veículo">
                                 <i class="material-icons">mode_edit</i>
-                            </a> |
-                            <a onclick="ConfirmarExclusao(@item.VeiculoId, '@item.Nome' )" class="btn-floating btn-small blue darken-4 tooltip" data-position="right" data-tooltip="Excluir Veículo">
+                            </a>
+                            <a onclick="ConfirmarExclusao(@item.VeiculoId, '@item.Nome' )" class="btn-floating btn-small red darken-4 tooltip" data-position="right" data-tooltip="Excluir Veículo">
                             <i class="material-icons">delete_forever</i>
                             </a>
                         </td>

@@ -1,19 +1,12 @@
 using GerenciadorCondominios.BLL.Models;
 using GerenciadorCondominios.DAL;
-using GerenciadorCondominios.DAL.Interface;
-using GerenciadorCondominios.DAL.Repositorios;
 using GerenciadorCondominios.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GerenciadorCondominios
 {
@@ -30,15 +23,21 @@ namespace GerenciadorCondominios
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Contexto>(option => option.UseSqlServer(Configuration.GetConnectionString("ConexaoDB")));
+            
+            
             services.AddIdentity<Usuario, Funcao>().AddEntityFrameworkStores<Contexto>();
 
             services.AddAuthentication();
             services.AddAuthorization();
-            services.AddControllersWithViews();
+
+            
             services.ConfigurarRepositorios(); // Extendendo a classe startup
+            services.ConfigurarCookies(); // Extendendo a classe startup
             services.ConfigurarNomeUsuario(); // Extendendo a classe startup
             services.ConfigurarSenhaUsuario(); // Extendendo a classe startup
-            services.ConfigurarCookies(); // Extendendo a classe startup
+
+            services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
