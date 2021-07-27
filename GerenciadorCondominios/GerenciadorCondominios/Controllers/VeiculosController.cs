@@ -75,7 +75,7 @@ namespace GerenciadorCondominios.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VeiculoId,Nome,Marca,Cor,Placa,UsuarioId")] Veiculo veiculo)
+        public async Task<IActionResult> Edit(int id, Veiculo veiculo)
         {
             try
             {
@@ -99,7 +99,6 @@ namespace GerenciadorCondominios.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult> Delete(int id)
         {
             try
